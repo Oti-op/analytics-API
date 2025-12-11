@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter
 from .schemas import EventSchema, EventlistSchema, EventCreateSchema, EventUpdateSchema
 
@@ -5,6 +6,7 @@ router = APIRouter()
 
 @router.get("/")
 def read_events() -> EventlistSchema:
+    print(os.environ.get)
     return {
         "results": [
             {"id": 1}, {"id": 2}, {"id": 3}
@@ -14,8 +16,8 @@ def read_events() -> EventlistSchema:
 
 @router.post("/")
 def create_event(payload: EventCreateSchema):
-    print(payload)
-    return {"id": 123}
+    data = payload.model_dump() # payload -> dict -> pydantic
+    return {"id": 123, **data}
 
 @router.get("/{event_id}")
 def get_event(event_id: int) -> EventSchema:
@@ -25,7 +27,6 @@ def get_event(event_id: int) -> EventSchema:
 
 @router.put("/{event_id}")
 def get_event(event_id: int, payload:EventUpdateSchema) -> EventSchema:
-    print(payload)
     return {
-        "id": event_id
+        "id": event_id, **data
     }
