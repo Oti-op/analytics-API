@@ -30,3 +30,5 @@ def get_event(event_id: int, payload:EventUpdateSchema) -> EventSchema:
     return {
         "id": event_id, **data
     }
+
+#hdn
